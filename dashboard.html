@@ -1,0 +1,212 @@
+<script type="text/javascript">
+        var gk_isXlsx = false;
+        var gk_xlsxFileLookup = {};
+        var gk_fileData = {};
+        function filledCell(cell) {
+          return cell !== '' && cell != null;
+        }
+        function loadFileData(filename) {
+        if (gk_isXlsx && gk_xlsxFileLookup[filename]) {
+            try {
+                var workbook = XLSX.read(gk_fileData[filename], { type: 'base64' });
+                var firstSheetName = workbook.SheetNames[0];
+                var worksheet = workbook.Sheets[firstSheetName];
+
+                // Convert sheet to JSON to filter blank rows
+                var jsonData = XLSX.utils.sheet_to_json(worksheet, { header: 1, blankrows: false, defval: '' });
+                // Filter out blank rows (rows where all cells are empty, null, or undefined)
+                var filteredData = jsonData.filter(row => row.some(filledCell));
+
+                // Heuristic to find the header row by ignoring rows with fewer filled cells than the next row
+                var headerRowIndex = filteredData.findIndex((row, index) =>
+                  row.filter(filledCell).length >= filteredData[index + 1]?.filter(filledCell).length
+                );
+                // Fallback
+                if (headerRowIndex === -1 || headerRowIndex > 25) {
+                  headerRowIndex = 0;
+                }
+
+                // Convert filtered JSON back to CSV
+                var csv = XLSX.utils.aoa_to_sheet(filteredData.slice(headerRowIndex)); // Create a new sheet from filtered array of arrays
+                csv = XLSX.utils.sheet_to_csv(csv, { header: 1 });
+                return csv;
+            } catch (e) {
+                console.error(e);
+                return "";
+            }
+        }
+        return gk_fileData[filename] || "";
+        }
+        </script><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SALIFU TECH TRIVIA QUESTIONS</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        body {
+            max-width: 100%;
+        }
+        .hidden {
+            display: none;
+        }
+        .question-page {
+            margin-bottom: 1rem;
+        }
+        .option-label {
+            cursor: pointer;
+            padding: 0.5rem;
+            border: 0.1rem solid #e0e0e0;
+            border-radius: 0.25rem;
+            margin-bottom: 0.5rem;
+        }
+        .option-label:hover {
+            background-color: #f0f0f0;
+        }
+    </style>
+</head>
+<body class="bg-gray-100 flex flex-col items-center justify-center h-screen">
+    <div id="quiz-container" class="bg-white p-6 rounded-lg shadow-lg w-full max-w-2xl">
+        <h1 class="text-2xl font-bold mb-4 text-center">NMC Past Questions Trivia</h1>
+        <div id="quiz-form">
+            <!-- Question pages will be dynamically added here -->
+            <div id="question-page-0" class="question-page">
+                <!-- Questions will be dynamically inserted -->
+            </div>
+            <div class="flex justify-between mt-4">
+                <button id="prev-btn" class="bg-gray-500 text-white px-4 py-2 rounded hidden" onclick="showPrevPage()">Previous</button>
+                <button id="next-btn" class="bg-blue-500 text-white px-4 py-2 rounded" onclick="showNextPage()">Next</button>
+                <button id="submit-btn" class="bg-green-500 text-white px-4 py-2 rounded hidden" onclick="submitQuiz()">Submit</button>
+            </div>
+        </div>
+        <div id="result" class="hidden mt-4">
+            <h2 class="text-xl font-semibold">Your Results</h2>
+            <p id="score"></p>
+            <div id="answers"></div>
+        </div>
+        <div id="admin-view" class="hidden mt-4">
+            <h2 class="text-xl font-semibold">Admin View - Submitted Results</h2>
+            <ul id="admin-results" class="list-disc pl-5"></ul>
+        </div>
+    </div>
+    <button id="toggle-admin" class="mt-4 bg-purple-500 text-white px-4 py-2 rounded" onclick="toggleAdminView()">Toggle Admin View</button>
+
+    <script>
+        const questions = [
+            { question: "What is the primary source of energy for Earth's climate system?", options: ["Sun", "Moon", "Geothermal", "Wind"], answer: "Sun" },
+            { question: "Which gas is most abundant in Earth's atmosphere?", options: ["Oxygen", "Nitrogen", "Carbon Dioxide", "Argon"], answer: "Nitrogen" },
+            { question: "What is the chemical symbol for water?", options: ["H2O", "CO2", "O2", "N2"], answer: "H2O" },
+            { question: "Which planet is known as the Red Planet?", options: ["Venus", "Mars", "Jupiter", "Mercury"], answer: "Mars" },
+            { question: "What is the main source of energy for Earth's climate system?", options: ["Sun", "Moon", "Geothermal", "Wind"], answer: "Sun" },
+            { question: "Which layer of the atmosphere contains the ozone layer?", options: ["Troposphere", "Stratosphere", "Mesosphere", "Thermosphere"], answer: "Stratosphere" },
+            { question: "What is the primary source of energy for Earth's climate system?", options: ["Sun", "Moon", "Geothermal", "Wind"], answer: "Sun" },
+            { question: "Which gas is most abundant in Earth's atmosphere?", options: ["Oxygen", "Nitrogen", "Carbon Dioxide", "Argon"], answer: "Nitrogen" },
+            { question: "What is the chemical symbol for water?", options: ["H2O", "CO2", "O2", "N2"], answer: "H2O" },
+            { question: "Which planet is known as the Red Planet?", options: ["Venus", "Mars", "Jupiter", "Mercury"], answer: "Mars" },
+        ];
+
+        const questionsPerPage = 5;
+        let currentPage = 0;
+        const totalPages = Math.ceil(questions.length / questionsPerPage);
+        let userAnswers = {};
+
+        function renderQuestions() {
+            for (let i = 0; i < totalPages; i++) {
+                const pageDiv = document.createElement('div');
+                pageDiv.id = `question-page-${i}`;
+                pageDiv.className = 'question-page';
+                if (i !== 0) pageDiv.classList.add('hidden');
+                const start = i * questionsPerPage;
+                const end = Math.min(start + questionsPerPage, questions.length);
+                for (let j = start; j < end; j++) {
+                    const q = questions[j];
+                    const questionDiv = document.createElement('div');
+                    questionDiv.className = 'mb-4';
+                    questionDiv.innerHTML = `
+                        <p class="font-semibold">${j + 1}. ${q.question}</p>
+                        ${q.options.map((option, index) => `
+                            <label class="option-label block">
+                                <input type="radio" name="q${j}" value="${option}" class="mr-2" onchange="saveAnswer(${j}, '${option}')">
+                                ${option}
+                            </label>
+                        `).join('')}
+                    `;
+                    pageDiv.appendChild(questionDiv);
+                }
+                document.getElementById('quiz-form').insertBefore(pageDiv, document.getElementById('quiz-form').lastElementChild);
+            }
+        }
+
+        function saveAnswer(questionIndex, answer) {
+            userAnswers[questionIndex] = answer;
+        }
+
+        function showNextPage() {
+            if (currentPage < totalPages - 1) {
+                document.getElementById(`question-page-${currentPage}`).classList.add('hidden');
+                currentPage++;
+                document.getElementById(`question-page-${currentPage}`).classList.remove('hidden');
+                document.getElementById('prev-btn').classList.remove('hidden');
+                if (currentPage === totalPages - 1) {
+                    document.getElementById('next-btn').classList.add('hidden');
+                    document.getElementById('submit-btn').classList.remove('hidden');
+                }
+            }
+        }
+
+        function showPrevPage() {
+            if (currentPage > 0) {
+                document.getElementById(`question-page-${currentPage}`).classList.add('hidden');
+                currentPage--;
+                document.getElementById(`question-page-${currentPage}`).classList.remove('hidden');
+                document.getElementById('next-btn').classList.remove('hidden');
+                document.getElementById('submit-btn').classList.add('hidden');
+                if (currentPage === 0) {
+                    document.getElementById('prev-btn').classList.add('hidden');
+                }
+            }
+        }
+
+        function submitQuiz() {
+            let score = 0;
+            const answersHtml = questions.map((q, index) => {
+                const userAnswer = userAnswers[index] || 'No answer';
+                const isCorrect = userAnswer === q.answer;
+                if (isCorrect) score++;
+                return `
+                    <p><strong>${index + 1}. ${q.question}</strong></p>
+                    <p>Your answer: ${userAnswer} ${isCorrect ? '✅' : '❌'}</p>
+                    <p>Correct answer: ${q.answer}</p>
+                `;
+            }).join('');
+            document.getElementById('score').textContent = `You scored ${score} out of ${questions.length} (${(score / questions.length * 100).toFixed(2)}%)`;
+            document.getElementById('answers').innerHTML = answersHtml;
+            document.getElementById('quiz-form').classList.add('hidden');
+            document.getElementById('result').classList.remove('hidden');
+
+            // Simulate saving to backend
+            const results = JSON.parse(localStorage.getItem('quizResults') || '[]');
+            results.push({ user: 'Anonymous', score, total: questions.length, date: new Date().toISOString() });
+            localStorage.setItem('quizResults', JSON.stringify(results));
+        }
+
+        function toggleAdminView() {
+            const adminView = document.getElementById('admin-view');
+            if (adminView.classList.contains('hidden')) {
+                const results = JSON.parse(localStorage.getItem('quizResults') || '[]');
+                const resultsHtml = results.map((result, index) => `
+                    <li>User: ${result.user}, Score: ${result.score}/${result.total}, Date: ${new Date(result.date).toLocaleString()}</li>
+                `).join('');
+                document.getElementById('admin-results').innerHTML = resultsHtml;
+                adminView.classList.remove('hidden');
+            } else {
+                adminView.classList.add('hidden');
+            }
+        }
+
+        // Initialize quiz
+        renderQuestions();
+    </script>
+</body>
+  </html>
