@@ -49,7 +49,7 @@
             margin: 20px;
             background-color: #f4f4f4;
         }
-        .quiz-container {
+        .container {
             max-width: 800px;
             margin: auto;
             background: white;
@@ -60,579 +60,442 @@
         .question {
             margin-bottom: 20px;
         }
-        .question h3 {
-            margin: 0 0 10px;
-        }
         .options label {
             display: block;
-            padding: 10px;
-            background: #e0e0e0;
-            margin: 5px 0;
+            margin: 10px 0;
             cursor: pointer;
-            border-radius: 4px;
         }
-        .options label:hover {
-            background: #d0d0d0;
+        .options input[type="radio"] {
+            margin-right: 10px;
         }
-        .options input {
-            display: none;
-        }
-        .options .correct {
-            background: #28a745 !important;
-            color: white;
-        }
-        .options .wrong {
-            background: #dc3545 !important;
-            color: white;
-        }
-        .options .disabled {
-            pointer-events: none;
-            opacity: 0.7;
-        }
-        #timer {
+        .timer {
             font-size: 1.2em;
-            font-weight: bold;
             margin-bottom: 20px;
+            color: #d9534f;
         }
-        #result {
+        .hidden {
             display: none;
-            margin-top: 20px;
-            padding: 20px;
-            background: #e0e0e0;
-            border-radius: 8px;
         }
-        button {
+        .btn {
             padding: 10px 20px;
-            background: #007bff;
+            background-color: #5cb85c;
             color: white;
             border: none;
             border-radius: 4px;
             cursor: pointer;
         }
-        button:hover {
-            background: #0056b3;
+        .btn:hover {
+            background-color: #4cae4c;
         }
-        .form-group {
-            margin-bottom: 20px;
+        .error {
+            color: red;
+            margin-bottom: 10px;
         }
-        .form-group label {
-            display: block;
-            margin-bottom: 5px;
+        .results {
+            margin-top: 20px;
         }
-        .form-group input {
-            padding: 8px;
-            width: 100%;
-            max-width: 300px;
-            border: 1px solid #ccc;
-            border-radius: 4px;
+        .results .correct {
+            color: green;
+        }
+        .results .incorrect {
+            color: red;
         }
     </style>
 </head>
 <body>
-    <div class="quiz-container">
-        <div class="form-group">
+    <div class="container">
+        <h1>Plugfam Trivia Quiz</h1>
+        <div id="login-form">
             <label for="name">Name:</label>
             <input type="text" id="name" required>
+            <br><br>
+            <label for="email">Gmail:</label>
+            <input type="email" id="Karimsalifu2740@gmail.com" required>
+            <br><br>
+            <label>Index Number: plugfam20251234</label>
+            <br><br>
+            <button class="btn" onclick="startQuiz()">Start Quiz</button>
+            <div id="error" class="error hidden"></div>
         </div>
-        <div class="form-group">
-            <label for="index">Index Number:</label>
-            <input type="text" id="index" value="20259011006" readonly>
+        <div id="quiz" class="hidden">
+            <div class="timer" id="timer">Time Left: 25:00</div>
+            <form id="quiz-form">
+                <!-- Questions will be dynamically inserted here -->
+            </form>
+            <button class="btn" onclick="submitQuiz()">Submit Quiz</button>
         </div>
-        <div id="timer">Time Left: 25:00</div>
-        <form id="quiz-form">
-            <div class="question" data-answer="a">
-                <h3>1. Significant information obtained from the patient health history that relates to the haematologic system includes</h3>
-                <div class="options">
-                    <label><input type="radio" name="q1" value="a"> a. Jaundice</label>
-                    <label><input type="radio" name="q1" value="b"> b. Bladder surgery</label>
-                    <label><input type="radio" name="q1" value="c"> c. Early menopause</label>
-                    <label><input type="radio" name="q1" value="d"> d. Multiple pregnancies</label>
-                </div>
-            </div>
-            <div class="question" data-answer="d">
-                <h3>2. The most important electrolyte in the extracellular fluid is</h3>
-                <div class="options">
-                    <label><input type="radio" name="q2" value="a"> a. Calcium</label>
-                    <label><input type="radio" name="q2" value="b"> b. Chloride</label>
-                    <label><input type="radio" name="q2" value="c"> c. Potassium</label>
-                    <label><input type="radio" name="q2" value="d"> d. Sodium</label>
-                </div>
-            </div>
-            <div class="question" data-answer="d">
-                <h3>3. It has been detected that the Purkinje system is damaged in a patient. The nurse recognises that the conduction of electrical impulses is most likely impaired through the</h3>
-                <div class="options">
-                    <label><input type="radio" name="q3" value="a"> a. Atria</label>
-                    <label><input type="radio" name="q3" value="b"> b. AV node</label>
-                    <label><input type="radio" name="q3" value="c"> c. Bundle of His</label>
-                    <label><input type="radio" name="q3" value="d"> d. Ventricles</label>
-                </div>
-            </div>
-            <div class="question" data-answer="c">
-                <h3>4. A patient with a tricuspid valve disorder will have impaired blood flow between the</h3>
-                <div class="options">
-                    <label><input type="radio" name="q4" value="a"> a. Vena cava and right atrium</label>
-                    <label><input type="radio" name="q4" value="b"> b. Left atrium and left ventricle</label>
-                    <label><input type="radio" name="q4" value="c"> c. Right atrium and right ventricle</label>
-                    <label><input type="radio" name="q4" value="d"> d. Right ventricle and pulmonary artery</label>
-                </div>
-            </div>
-            <div class="question" data-answer="c">
-                <h3>5. A woman is being treated for Trichomonas vaginalis with Metronidazole (Flagyl). Which statement the woman makes indicates a need for further teaching?</h3>
-                <div class="options">
-                    <label><input type="radio" name="q5" value="a"> a. I will take Flagyl with meals</label>
-                    <label><input type="radio" name="q5" value="b"> b. The doctor said I might get a metallic taste in my mouth while I'm taking Flagyl</label>
-                    <label><input type="radio" name="q5" value="c"> c. I will drink only one glass of wine per meal while I'm taking Flagyl</label>
-                </div>
-            </div>
-            <div class="question" data-answer="a">
-                <h3>6. Bertha complained of fishy smelling, white cheeslike vaginal discharge with pruritus. You suspect that Bertha may have:</h3>
-                <div class="options">
-                    <label><input type="radio" name="q6" value="a"> a. Moniliasis</label>
-                    <label><input type="radio" name="q6" value="b"> b. Syphilis</label>
-                    <label><input type="radio" name="q6" value="c"> c. Gonorrhea</label>
-                </div>
-            </div>
-            <div class="question" data-answer="b">
-                <h3>7. A patient has been at the male’s ward and has been on dialysis for some couple of days now. His body fluid imbalance has been monitored timely. Laboratory results indicate there is a negative charged ion. Nurse Kimbi knows that a negatively charged ion in the body is:</h3>
-                <div class="options">
-                    <label><input type="radio" name="q7" value="a"> a. cation</label>
-                    <label><input type="radio" name="q7" value="b"> b. anion</label>
-                    <label><input type="radio" name="q7" value="c"> c. hydrolysis</label>
-                </div>
-            </div>
-            <div class="question" data-answer="c">
-                <h3>8. A patient admitted at the emergency ward as a result of road accident is bleeding profusely. The nurse knows that during acute severe blood loss the body will:</h3>
-                <div class="options">
-                    <label><input type="radio" name="q8" value="a"> a. increase haemolytic process</label>
-                    <label><input type="radio" name="q8" value="b"> b. inhibit erythropoiesis</label>
-                    <label><input type="radio" name="q8" value="c"> c. reduce blood flow to the peripheral structures</label>
-                </div>
-            </div>
-            <div class="question" data-answer="a">
-                <h3>9. Food nutrients are very necessary in our daily life. Mr. Oti with malnutritional problems requires a supplementation of iron. Iron absorption in the body is enhanced by the presence of which of the following food vitamins?</h3>
-                <div class="options">
-                    <label><input type="radio" name="q9" value="a"> a. Vitamin C</label>
-                    <label><input type="radio" name="q9" value="b"> b. Vitamin D</label>
-                    <label><input type="radio" name="q9" value="c"> c. Vitamin K</label>
-                </div>
-            </div>
-            <div class="question" data-answer="c">
-                <h3>10. Mr. Sowah, aged 84 years, has been admitted with a condition of perforated eardrum. Which of the following otoscopic findings indicates this perforated eardrum?</h3>
-                <div class="options">
-                    <label><input type="radio" name="q10" value="a"> a. dense white patches on the ear drum</label>
-                    <label><input type="radio" name="q10" value="b"> b. a red, bulging eardrum</label>
-                    <label><input type="radio" name="q10" value="c"> c. a round darkened area on the eardrum</label>
-                </div>
-            </div>
-            <div class="question" data-answer="c">
-                <h3>11. Auntie Esi, a bread seller who is fond of eating at the chop bar. She was admitted at the hospital and diagnosis reveals a hep C virus in her sample. Which of the following finding is commonly found with a client with hepatitis C?</h3>
-                <div class="options">
-                    <label><input type="radio" name="q11" value="a"> a. headache</label>
-                    <label><input type="radio" name="q11" value="b"> b. insomnia</label>
-                    <label><input type="radio" name="q11" value="c"> c. fever</label>
-                </div>
-            </div>
-            <div class="question" data-answer="a">
-                <h3>12. A client always has an urgency to defecate but inability to defecate. You are the nurse in charge of this patient. Later the client was diagnosed with pernicious anaemia. Pernicious anaemia is associated with:</h3>
-                <div class="options">
-                    <label><input type="radio" name="q12" value="a"> a. Decreased absorption of cobalamin</label>
-                    <label><input type="radio" name="q12" value="b"> b. Decreased consumption of iron</label>
-                    <label><input type="radio" name="q12" value="c"> c. Excessive consumption of iron</label>
-                </div>
-            </div>
-            <div class="question" data-answer="c">
-                <h3>13. A client diagnosed of thrombophlebitis 24 hours ago suddenly complains of chest pain, shortness of breath and visible anxiousness. The nurse, Bright nursing this client must check the client for other signs and symptoms of:</h3>
-                <div class="options">
-                    <label><input type="radio" name="q13" value="a"> a. myocardial infarction</label>
-                    <label><input type="radio" name="q13" value="b"> b. pulmonary oedema</label>
-                    <label><input type="radio" name="q13" value="c"> c. pulmonary embolism</label>
-                </div>
-            </div>
-            <div class="question" data-answer="b">
-                <h3>14. A newly admitted patient was also found to have dementia. As health personnel you know that Dementia often occurs in which of the following disease:</h3>
-                <div class="options">
-                    <label><input type="radio" name="q14" value="a"> a. Aplastic anaemia</label>
-                    <label><input type="radio" name="q14" value="b"> b. Pernicious anaemia</label>
-                    <label><input type="radio" name="q14" value="c"> c. Haemorrhagic anaemia</label>
-                </div>
-            </div>
-            <div class="question" data-answer="b">
-                <h3>15. A farmer reported to the health facility and he was known to be haemophiliac. In haemophiliacs, the swelling of the joints result from which of the under listed:</h3>
-                <div class="options">
-                    <label><input type="radio" name="q15" value="a"> a. Infection</label>
-                    <label><input type="radio" name="q15" value="b"> b. Bleeding</label>
-                    <label><input type="radio" name="q15" value="c"> c. Bruising</label>
-                </div>
-            </div>
-            <div class="question" data-answer="b">
-                <h3>16. Francisca Odoom visited the OPD and complained of bleeding after defecation. She was diagnosed of hemorrhoids. Which of the following is NOT a precipitating cause of hemorrhoids?</h3>
-                <div class="options">
-                    <label><input type="radio" name="q16" value="a"> a. Constipation</label>
-                    <label><input type="radio" name="q16" value="b"> b. Occlusion of the arterial blood supply to the rectum</label>
-                    <label><input type="radio" name="q16" value="c"> c. Prolong sitting or standing</label>
-                </div>
-            </div>
-            <div class="question" data-answer="a">
-                <h3>17. Auntie Mansah, a pregnant woman of age 29 years reported to the health unit with cramping pains and problem with movement. The nurse noticed that Auntie Mensah is suffering from varicose veins. She recommended to her of wearing supported hose to increase pressure. Varicose veins are usually the result of:</h3>
-                <div class="options">
-                    <label><input type="radio" name="q17" value="a"> a. Defective valves within the veins</label>
-                    <label><input type="radio" name="q17" value="b"> b. Atherosclerotic plaques along the veins</label>
-                    <label><input type="radio" name="q17" value="c"> c. The formation of thrombophlebitis</label>
-                </div>
-            </div>
-            <div class="question" data-answer="b">
-                <h3>18. Kyei Mensah was involved in a fatal road accident and got both his upper and lower limbs fractured. He has been sent to the operating room for amputation of the limbs. Following extensive and prolong surgery, it is important that the nurse observes the patient for depletion of which electrolyte?</h3>
-                <div class="options">
-                    <label><input type="radio" name="q18" value="a"> a. Potassium</label>
-                    <label><input type="radio" name="q18" value="b"> b. Sodium</label>
-                    <label><input type="radio" name="q18" value="c"> c. Chloride</label>
-                </div>
-            </div>
-            <div class="question" data-answer="c">
-                <h3>19. Nurse Bright has administered aspirin to his patient and the patient has started experiencing some common side effect such as stomach upset. The nurse knows that, the action of aspirin is to:</h3>
-                <div class="options">
-                    <label><input type="radio" name="q19" value="a"> a. Decrease heart rate with increase formation of thrombosis</label>
-                    <label><input type="radio" name="q19" value="b"> b. Dilate coronary and peripheral vessels</label>
-                    <label><input type="radio" name="q19" value="c"> c. Decrease platelet aggregation</label>
-                </div>
-            </div>
-            <div class="question" data-answer="c">
-                <h3>20. Theresa Aban, a client who was brought to an emergency department with angina pectoris, the priority of the nursing care to be rendered to Mrs. Aban in her emergency situation is to:</h3>
-                <div class="options">
-                    <label><input type="radio" name="q20" value="a"> a. put in place a bed table</label>
-                    <label><input type="radio" name="q20" value="b"> b. put the client on a low bed</label>
-                    <label><input type="radio" name="q20" value="c"> c. assemble oxygen apparatus at the bedside</label>
-                </div>
-            </div>
-            <div class="question" data-answer="b">
-                <h3>21. When the virus (HIV) enters the body it attacks and kills the</h3>
-                <div class="options">
-                    <label><input type="radio" name="q21" value="a"> a. B Lymphocytes</label>
-                    <label><input type="radio" name="q21" value="b"> b. T Lymphocytes</label>
-                    <label><input type="radio" name="q21" value="c"> c. Mast cells</label>
-                </div>
-            </div>
-            <div class="question" data-answer="b">
-                <h3>22. Histamine, a mediator that supports the inflammatory process in asthma, is secreted by:</h3>
-                <div class="options">
-                    <label><input type="radio" name="q22" value="a"> a. Lymphocytes</label>
-                    <label><input type="radio" name="q22" value="b"> b. Mast cells</label>
-                    <label><input type="radio" name="q22" value="c"> c. Neutrophils</label>
-                </div>
-            </div>
-            <div class="question" data-answer="a">
-                <h3>23. Which of the following nursing diagnosis would be a high priority for a patient diagnosed with Meniere's disease?</h3>
-                <div class="options">
-                    <label><input type="radio" name="q23" value="a"> a. Risk of injury</label>
-                    <label><input type="radio" name="q23" value="b"> b. Risk for possible hearing loss</label>
-                    <label><input type="radio" name="q23" value="c"> c. Risk of sleep pattern disturbance</label>
-                </div>
-            </div>
-            <div class="question" data-answer="a">
-                <h3>24. The major test used to determine whether a person has been infected with the tuberculosis bacillus is termed …………… test</h3>
-                <div class="options">
-                    <label><input type="radio" name="q24" value="a"> a. Mantoux</label>
-                    <label><input type="radio" name="q24" value="b"> b. Schilling</label>
-                    <label><input type="radio" name="q24" value="c"> c. Koch’s</label>
-                </div>
-            </div>
-            <div class="question" data-answer="a">
-                <h3>25. Which of the following is a sign or symptom of a hemolytic reaction to blood transfusion?</h3>
-                <div class="options">
-                    <label><input type="radio" name="q25" value="a"> a. Hemoglobinuria</label>
-                    <label><input type="radio" name="q25" value="b"> b. Chest pain</label>
-                    <label><input type="radio" name="q25" value="c"> c. Urticaria</label>
-                </div>
-            </div>
-            <div class="question" data-answer="a">
-                <h3>26. The nurse understands that for clear airway to the lungs, the patient head must be positioned as</h3>
-                <div class="options">
-                    <label><input type="radio" name="q26" value="a"> a. Extend head, rolled up towel at the nape, lower jaw lift upward and forwards</label>
-                    <label><input type="radio" name="q26" value="b"> b. Extend head, rolled up towel at the nape, lower jaw lift upwards and back wards</label>
-                    <label><input type="radio" name="q26" value="c"> c. Extend head, rolled up towel at the nape, lower jaw downward and backward</label>
-                </div>
-            </div>
-            <div class="question" data-answer="c">
-                <h3>27. Which of the following posture would the nurse assume for external cardiac message?</h3>
-                <div class="options">
-                    <label><input type="radio" name="q27" value="a"> a. Kneels beside patient, hands at lower sternum, elbows straight, lean over patient</label>
-                    <label><input type="radio" name="q27" value="b"> b. Kneels beside patient hands at upper sternum, elbow straight, lean over patient</label>
-                    <label><input type="radio" name="q27" value="c"> c. Kneels beside patient, heals of hands at lower sternum, elbows straight, lean over patient</label>
-                </div>
-            </div>
-            <div class="question" data-answer="c">
-                <h3>28. A client is being admitted to a medical unit with a diagnosis of tuberculosis. Which type of room should this client is assigned by the nurse?</h3>
-                <div class="options">
-                    <label><input type="radio" name="q28" value="a"> a. Private room</label>
-                    <label><input type="radio" name="q28" value="b"> b. Room with windows that can be opened</label>
-                    <label><input type="radio" name="q28" value="c"> c. Negative airflow room</label>
-                </div>
-            </div>
-            <div class="question" data-answer="c">
-                <h3>29. The nurse instructs a client to use the pursed-lip method of breathing and evaluates the teaching by asking the client about the purpose of this type of breathing. The nurse determines that the client understands if the client states that the primary purpose of pursed-lip breathing is to promote which outcome?</h3>
-                <div class="options">
-                    <label><input type="radio" name="q29" value="a"> a. Promote oxygen intake</label>
-                    <label><input type="radio" name="q29" value="b"> b. Strengthen the diaphragm</label>
-                    <label><input type="radio" name="q29" value="c"> c. Promote carbon-dioxide elimination</label>
-                </div>
-            </div>
-            <div class="question" data-answer="c">
-                <h3>30. Which client is most likely to receive opioids for extended periods of time?</h3>
-                <div class="options">
-                    <label><input type="radio" name="q30" value="a"> a. A client with fibromyalgia</label>
-                    <label><input type="radio" name="q30" value="b"> b. A client with phantom limb pain</label>
-                    <label><input type="radio" name="q30" value="c"> c. A client with progressive pancreatic cancer</label>
-                </div>
-            </div>
-            <div class="question" data-answer="c">
-                <h3>31. During a clinical conference at the ward, a charge nurse presented on the number of bones making up the skeletal system. As a nurse assistant clinical which of the following total number of bones makes up the skeletal system?</h3>
-                <div class="options">
-                    <label><input type="radio" name="q31" value="a"> a. 200</label>
-                    <label><input type="radio" name="q31" value="b"> b. 204</label>
-                    <label><input type="radio" name="q31" value="c"> c. 206</label>
-                </div>
-            </div>
-            <div class="question" data-answer="a">
-                <h3>32. The body’s tendency to maintain a state of physiologic balance in the presence of constantly changing conditions is referred to as</h3>
-                <div class="options">
-                    <label><input type="radio" name="q32" value="a"> a. Homeostasis</label>
-                    <label><input type="radio" name="q32" value="b"> b. Haemostasis</label>
-                    <label><input type="radio" name="q32" value="c"> c. Homeothermic</label>
-                </div>
-            </div>
-            <div class="question" data-answer="b">
-                <h3>33. What is the rationale for informed consent?</h3>
-                <div class="options">
-                    <label><input type="radio" name="q33" value="a"> a. The protection of patient from injury</label>
-                    <label><input type="radio" name="q33" value="b"> b. The protection of individual autonomy</label>
-                    <label><input type="radio" name="q33" value="c"> c. The protection of patient’s privacy</label>
-                </div>
-            </div>
-            <div class="question" data-answer="a">
-                <h3>34. Which state of development is MOST unstable and challenging regarding the development of personal identity?</h3>
-                <div class="options">
-                    <label><input type="radio" name="q34" value="a"> a. Adolescent</label>
-                    <label><input type="radio" name="q34" value="b"> b. Young adult</label>
-                    <label><input type="radio" name="q34" value="c"> c. Toddlerhood</label>
-                </div>
-            </div>
-            <div class="question" data-answer="b">
-                <h3>35. On your clinical placement at the Genito Urinary (GU) department, the Preceptor on duty during an orientation program for students, took the opportunity to educate the students on the prostate gland. She recapped her teachings by stating that all the following are functions of the prostate gland EXCEPT…</h3>
-                <div class="options">
-                    <label><input type="radio" name="q35" value="a"> a. Contains a clotting enzyme which thickens the semen in vagina</label>
-                    <label><input type="radio" name="q35" value="b"> b. Emerges from the bladder hence helps in production of urine</label>
-                    <label><input type="radio" name="q35" value="c"> c. Secretes thin, milky fluid that makes 30% of the volume of semen</label>
-                </div>
-            </div>
-            <div class="question" data-answer="b">
-                <h3>36. Rectal and anal assessment are mostly carried out to diagnose which of the following conditions?</h3>
-                <div class="options">
-                    <label><input type="radio" name="q36" value="a"> a. Gastric and duodenal ulcer</label>
-                    <label><input type="radio" name="q36" value="b"> b. Colorectal and prostatic cancers</label>
-                    <label><input type="radio" name="q36" value="c"> c. Constipation and diarrhea</label>
-                </div>
-            </div>
-            <div class="question" data-answer="a">
-                <h3>37. Helping a diabetic patient to learn a new way of coping with his condition is termed…</h3>
-                <div class="options">
-                    <label><input type="radio" name="q37" value="a"> a. Rehabilitation</label>
-                    <label><input type="radio" name="q37" value="b"> b. Discharge teaching</label>
-                    <label><input type="radio" name="q37" value="c"> c. Continuity of care</label>
-                </div>
-            </div>
-            <div class="question" data-answer="b">
-                <h3>38. A patient with cardiac failure is on humidified oxygen therapy. The nurse assistant understands that humidity is the …...</h3>
-                <div class="options">
-                    <label><input type="radio" name="q38" value="a"> a. Rate of vapor condensation</label>
-                    <label><input type="radio" name="q38" value="b"> b. Amount of water vapor present in gas</label>
-                    <label><input type="radio" name="q38" value="c"> c. Number of hydrogen molecules in the air</label>
-                </div>
-            </div>
-            <div class="question" data-answer="b">
-                <h3>39. Which of the following first aid treatment should the nurse assistant give to a client who has signs and symptoms of internal bleeding?</h3>
-                <div class="options">
-                    <label><input type="radio" name="q39" value="a"> a. Put client in sitting up position</label>
-                    <label><input type="radio" name="q39" value="b"> b. Client should be kept absolutely still in bed</label>
-                    <label><input type="radio" name="q39" value="c"> c. Undo tight clothing around neck, chest and waist</label>
-                </div>
-            </div>
-            <div class="question" data-answer="b">
-                <h3>40. To prevent urinary tract infections girls are advised to avoid washing their vagina with chemical agents and soaps. This is because:</h3>
-                <div class="options">
-                    <label><input type="radio" name="q40" value="a"> a. It will cause bad odor in the vagina</label>
-                    <label><input type="radio" name="q40" value="b"> b. Normal bacteria present in the vagina will be eliminated</label>
-                    <label><input type="radio" name="q40" value="c"> c. It will cause erosion of the surrounding tissues</label>
-                </div>
-            </div>
-            <div class="question" data-answer="c">
-                <h3>41. Nurse Dzifa is assigned for serving medicines to patient on the ward. Which of the following would she do in the administration of mixture?</h3>
-                <div class="options">
-                    <label><input type="radio" name="q41" value="a"> a. I, III only</label>
-                    <label><input type="radio" name="q41" value="b"> b. I only</label>
-                    <label><input type="radio" name="q41" value="c"> c. II only</label>
-                </div>
-            </div>
-            <div class="question" data-answer="c">
-                <h3>42. After removal of cast, the patient can be instructed to do the following EXCEPT…</h3>
-                <div class="options">
-                    <label><input type="radio" name="q42" value="a"> a. apply an ointment to soften the skin</label>
-                    <label><input type="radio" name="q42" value="b"> b. gradually resume activities and exercise</label>
-                    <label><input type="radio" name="q42" value="c"> c. use friction to remove dead surface skin</label>
-                </div>
-            </div>
-            <div class="question" data-answer="b">
-                <h3>43. The preoperative phase extends until…</h3>
-                <div class="options">
-                    <label><input type="radio" name="q43" value="a"> a. patient is given pre-medication</label>
-                    <label><input type="radio" name="q43" value="b"> b. patient is transferred to the operation room</label>
-                    <label><input type="radio" name="q43" value="c"> c. last vital signs are checked in the ward</label>
-                </div>
-            </div>
-            <div class="question" data-answer="a">
-                <h3>44. In …………..bleeding, the blood is bright red color</h3>
-                <div class="options">
-                    <label><input type="radio" name="q44" value="a"> a. Arterial</label>
-                    <label><input type="radio" name="q44" value="b"> b. Capillary</label>
-                    <label><input type="radio" name="q44" value="c"> c. Venous</label>
-                </div>
-            </div>
-            <div class="question" data-answer="b">
-                <h3>45. When the first aider tilts the casualty’s head back and lifts the chin up, he is trying to ensure or maintain</h3>
-                <div class="options">
-                    <label><input type="radio" name="q45" value="a"> a. Breathing</label>
-                    <label><input type="radio" name="q45" value="b"> b. Airway</label>
-                    <label><input type="radio" name="q45" value="c"> c. Circulation</label>
-                </div>
-            </div>
-            <div class="question" data-answer="a">
-                <h3>46. The following are signs of infected wounds except</h3>
-                <div class="options">
-                    <label><input type="radio" name="q46" value="a"> a. Cyanosis</label>
-                    <label><input type="radio" name="q46" value="b"> b. Fever</label>
-                    <label><input type="radio" name="q46" value="c"> c. Headache</label>
-                    <label><input type="radio" name="q46" value="d"> d. Pus</label>
-                </div>
-            </div>
-            <div class="question" data-answer="c">
-                <h3>47. Which of the following positions is best for a patient with Epistaxis? Head is tilted;</h3>
-                <div class="options">
-                    <label><input type="radio" name="q47" value="a"> a. Backwards</label>
-                    <label><input type="radio" name="q47" value="b"> b. Sideways</label>
-                    <label><input type="radio" name="q47" value="c"> c. Forward</label>
-                    <label><input type="radio" name="q47" value="d"> d. Straight</label>
-                </div>
-            </div>
-            <div class="question" data-answer="d">
-                <h3>48. Coughing up red blood is commonly seen in which of the following…..?</h3>
-                <div class="options">
-                    <label><input type="radio" name="q48" value="a"> a. Abdominal wounds</label>
-                    <label><input type="radio" name="q48" value="b"> b. Aseptic wounds</label>
-                    <label><input type="radio" name="q48" value="c"> c. Gunshot wound</label>
-                    <label><input type="radio" name="q48" value="d"> d. Penetrating chest wounds</label>
-                </div>
-            </div>
-            <div class="question" data-answer="c">
-                <h3>49. Which of the following wounds is healed by first intention</h3>
-                <div class="options">
-                    <label><input type="radio" name="q49" value="a"> a. Abrasion</label>
-                    <label><input type="radio" name="q49" value="b"> b. Bruised</label>
-                    <label><input type="radio" name="q49" value="c"> c. Incised</label>
-                    <label><input type="radio" name="q49" value="d"> d. Punctured</label>
-                </div>
-            </div>
-            <button type="button" onclick="submitQuiz()">Submit Quiz</button>
-        </form>
-        <div id="result"></div>
+        <div id="results" class="results hidden"></div>
     </div>
+
     <script>
-        // Prevent copy, paste, and screenshot
-        document.addEventListener('copy', (e) => e.preventDefault());
-        document.addEventListener('cut', (e) => e.preventDefault());
-        document.addEventListener('paste', (e) => e.preventDefault());
-        document.addEventListener('contextmenu', (e) => e.preventDefault());
-        document.addEventListener('keydown', (e) => {
-            if (e.key === 'PrintScreen' || (e.ctrlKey && ['c', 'x', 'p'].includes(e.key.toLowerCase()))) {
-                e.preventDefault();
+        const questions = [
+            {
+                question: "Significant information obtained from the patient health history that relates to the haematologic system includes",
+                options: ["Jaundice", "Bladder surgery", "Early menopause", "Multiple pregnancies"],
+                answer: "a"
+            },
+            {
+                question: "The most important electrolyte in the extracellular fluid is",
+                options: ["Calcium", "Chloride", "Potassium", "Sodium"],
+                answer: "d"
+            },
+            {
+                question: "It has been detected that the Purkinjie system is damaged in a patient. The nurse recognises that the conduction of electrical impulses is most likely impaired through the",
+                options: ["Atria", "AV node", "Bundle of His", "Ventricles"],
+                answer: "d"
+            },
+            {
+                question: "A patient with a tricuspid valve disorder will have impaired blood flow between the",
+                options: ["Vena cava and right atrium", "Left atrium and left ventricle", "Right atrium and right ventricle", "Right ventricle and pulmonary artery"],
+                answer: "c"
+            },
+            {
+                question: "A woman is being treated for Trichomonas vaginalis with Metronidazole (Flagyl). Which statement the woman makes indicates a need for further teaching?",
+                options: ["I will take Flagyl with meals", "The doctor said I might get a metallic taste in my mouth while I'm taking Flagyl", "I will drink only one glass of wine per meal while I'm taking Flagyl"],
+                answer: "c"
+            },
+            {
+                question: "Bertha complained of fishy smelling, white cheeslike vaginal discharge with pruritus. You suspect that Bertha may have:",
+                options: ["Moniliasis", "Syphilis", "Gonorrhea"],
+                answer: "a"
+            },
+            {
+                question: "A patient has been at the male’s ward and has been on dialysis for some couple of days now. His body fluid imbalance has been monitored timely. Laboratory results indicate there is a negative charged ion. Nurse Kimbi knows that a negatively charged ion in the body is:",
+                options: ["cation", "anion", "hydrolysis"],
+                answer: "b"
+            },
+            {
+                question: "A patient admitted at the emergency ward as a result of road accident is bleeding profusely. The nurse knows that during acute severe blood loss the body will:",
+                options: ["increase haemolytic process", "inhibit erythropoiesis", "reduce blood flow to the peripheral structures"],
+                answer: "c"
+            },
+            {
+                question: "Food nutrients are very necessary in our daily life. Mr. Oti with malnutritional problems requires a supplementation of iron. Iron absorption in the body is enhanced by the presence of which of the following food vitamins?",
+                options: ["Vitamin C", "Vitamin D", "Vitamin K"],
+                answer: "a"
+            },
+            {
+                question: "Mr. Sowah, and aged of 84years has been admitted with a condition of perforated eardrum. Which of the following otoscopic findings indicates this perforated eardrum?",
+                options: ["dense white patches on the ear drum", "a red, bulging eardrum", "a round darkened area on the eardrum"],
+                answer: "c"
+            },
+            {
+                question: "Auntie Esi, a bread seller who is fund of eating at the chop bar. She was admitted at the hospital and diagnosis reveals a hep C virus in her sample. Which of the following finding is commonly found with a client with hepatitis C?",
+                options: ["headache", "insomnia", "fever"],
+                answer: "c"
+            },
+            {
+                question: "A client always has an urgency to defecate but inability to defecate. You are the nurse in charge of this patient. Later the client was diagnosed with pernicious anaemia. Pernicious anaemia is associated with:",
+                options: ["Decreased absorption of cobalamin", "Decreased consumption of iron", "Excessive consumption of iron"],
+                answer: "a"
+            },
+            {
+                question: "A client diagnosed of thrombophlebitis 24 hours ago suddenly complains of chest pain, shortness of breath and visible anxiousness. The nurse, Bright nursing this client must check the client for other signs and symptoms of:",
+                options: ["myocardial infarction", "pulmonary oedema", "pulmonary embolism"],
+                answer: "c"
+            },
+            {
+                question: "A newly admitted patient was also found to have dementia. As health personnel you know that Dementia often occurs in which of the following disease:",
+                options: ["Aplastic anaemia", "Pernicious anaemia", "Haemorrhagic anaemia"],
+                answer: "b"
+            },
+            {
+                question: "A farmer reported to the health facility and he was known to be haemophiliac. In haemophiliacs, the swelling of the joints result from which of the under listed:",
+                options: ["Infection", "Bleeding", "Bruising"],
+                answer: "b"
+            },
+            {
+                question: "Francisca Odoom visited the OPD and complained of bleeding after defecation. She was diagnosed of hemorrhoids. Which of the following is NOT a precipitating cause of hemorrhoids?",
+                options: ["Constipation", "Occlusion of the arterial blood supply to the rectum", "Prolong sitting or standing"],
+                answer: "b"
+            },
+            {
+                question: "Auntie Mansah, a pregnant woman of age 29years reported to the health unit with cramping pains and problem with movement. The nurse noticed that Auntie Mensah is suffering from varicose veins. She recommended to her of wearing supported hose to increase pressure. Varicose veins are usually the result of:",
+                options: ["Defective valves within the veins", "Atherosclerotic plaques along the veins", "The formation of thrombophlebitis"],
+                answer: "a"
+            },
+            {
+                question: "Kyei Mensah was involved in a fatal road accident and got both his upper and lower limbs fractured. He has been sent to the operating room for amputation of the limbs. Following extensive and prolong surgery, it is important that the nurse observes the patient for depletion of which electrolyte?",
+                options: ["Potassium", "Sodium", "Chloride"],
+                answer: "b"
+            },
+            {
+                question: "Nurse Bright has administered aspirin to his patient and the patient has started experiencing some common side effect such as stomach upset. The nurse knows that, the action of aspirin is to:",
+                options: ["Decrease heart rate with increase formation of thrombosis.", "Dilate coronary and peripheral vessels", "Decrease platelet aggregation"],
+                answer: "c"
+            },
+            {
+                question: "Theresa Aban, a client who was brought to an emergency department with angina pectoris, the priority of the nursing care to be rendered to Mrs. Aban in her emergency situation is to:",
+                options: ["put in place a bed table", "put the client on a low bed", "assemble oxygen apparatus at the bedside"],
+                answer: "c"
+            },
+            {
+                question: "When the virus (HIV) enters the body it attacks and kills the",
+                options: ["B Lymphocytes", "T Lymphocytes", "Mast cells"],
+                answer: "b"
+            },
+            {
+                question: "Histamine, a mediator that supports the inflammatory process in asthma, is secreted by:",
+                options: ["Lymphocytes", "Mast cells", "Neutrophils"],
+                answer: "b"
+            },
+            {
+                question: "Which of the following nursing diagnosis would be a high priority for a patient diagnosed with Meniere's disease?",
+                options: ["Risk of injury", "Risk for possible hearing loss", "Risk of sleep pattern disturbance"],
+                answer: "a"
+            },
+            {
+                question: "The major test used to determine whether a person has been infected with the tuberculosis bacillus is termed …………… test",
+                options: ["Mantoux.", "Schilling.", "Koch’s."],
+                answer: "a"
+            },
+            {
+                question: "Which of the following is a sign or symptom of a hemolytic reaction to blood transfusion?",
+                options: ["Hemoglobinuria", "Chest pain", "Urticaria"],
+                answer: "a"
+            },
+            {
+                question: "The nurse understands that for clear airway to the lungs, the patient head must be positioned as",
+                options: ["Extend head, rolled up towel at the nape, lower jaw lift upward and forwards", "Extend head, rolled up towel at the nape, lower jaw lift upwards and back wards", "Extend head, rolled up towel at the nape, lower jaw downward and backward."],
+                answer: "a"
+            },
+            {
+                question: "Which of the following posture would the nurse assume for external cardiac message?",
+                options: ["Kneels beside patient, hands at lower sternum, elbows straight, lean over patient", "Kneels beside patient hands at upper sternum, elbow straight, lean over patient", "Kneels beside patient, heals of hands at lower sternum, elbows straight, lean over patient"],
+                answer: "a"
+            },
+            {
+                question: "A client is being admitted to a medical unit with a diagnosis of tuberculosis. Which type of room should this client is assigned by the nurse?",
+                options: ["Private room", "Room with windows that can be opened", "Negative airflow room."],
+                answer: "c"
+            },
+            {
+                question: "The nurse instructs a client to use the pursed-lip method of breathing and evaluates the teaching by asking the client about the purpose of this type of breathing. The nurse determines that the client understands if the client states that the primary purpose of pursed-lip breathing is to promote which outcome?",
+                options: ["Promote oxygen intake", "Strengthen the diaphragm", "Promote carbon- dioxide elimination"],
+                answer: "c"
+            },
+            {
+                question: "Which client is most likely to receive opioids for extended periods of time?",
+                options: ["A client with fibromyalgia", "A client with phantom limb pain", "A client with progressive pancreatic cancer"],
+                answer: "c"
+            },
+            {
+                question: "During a clinical conference at the ward, a charge nurse presented on the number of bones making up the skeletal system. As a nurse assistant clinical which of the following total number of bones makes up the skeletal system?",
+                options: ["200", "204", "206"],
+                answer: "c"
+            },
+            {
+                question: "The body’s tendency to maintain a state of physiologic balance in the presence of constantly changing conditions is referred to as",
+                options: ["Homeostasis.", "Haemostasis.", "Homeothermic."],
+                answer: "a"
+            },
+            {
+                question: "What is the rationale for informed consent?",
+                options: ["The protection of patient from injury", "The protection of individual autonomy", "The protection of patient’s privacy"],
+                answer: "b"
+            },
+            {
+                question: "Which state of development is MOST unstable and challenging regarding the development of personal identity?",
+                options: ["Adolescent", "Young adult", "Toddlerhood"],
+                answer: "a"
+            },
+            {
+                question: "On your clinical placement at the Genito Urinary (GU) department, the Preceptor on duty during an orientation program for students, took the opportunity to educate the students on the prostate gland. She recapped her teachings by stating that all the following are functions of the prostate gland EXCEPT…",
+                options: ["Contains a clothing enzyme which thickens the semen in vagina", "Emerges from the bladder hence helps in production of urine", "Secretes thin, milky fluid that makes 30% of the volume of semen"],
+                answer: "b"
+            },
+            {
+                question: "Rectal and anal assessment are mostly carried out to diagnose which of the following conditions?",
+                options: ["Gastric and duodenal ulcer", "Colorectal and prostatic cancers", "Constipation and diarrhea"],
+                answer: "b"
+            },
+            {
+                question: "Helping a diabetic patient to learn a new way of coping with his condition is termed…",
+                options: ["Rehabilitation", "Discharge teaching", "Continuity of care"],
+                answer: "a"
+            },
+            {
+                question: "A patient with cardiac failure is on humidified oxygen therapy. The nurse assistant understands that humidity is the …...",
+                options: ["Rate of vapor condensation", "Amount of water vapor present in gas", "Number of hydrogen molecules in the air"],
+                answer: "b"
+            },
+            {
+                question: "Which of the following first aid treatment should the nurse assistant give to a client who has signs and symptoms of internal bleeding?",
+                options: ["Put client in sitting up position", "Client should be kept absolutely still in bed", "Undo tight clothing around neck, chest and waist"],
+                answer: "b"
+            },
+            {
+                question: "To prevent urinary tract infections girls are advised to avoid washing their vagina with chemical agents and soaps. This is because:",
+                options: ["It will cause bad odor in the vagina", "Normal bacteria present in the vagina will be eliminated", "It will cause erosion of the surrounding tissues"],
+                answer: "b"
+            },
+            {
+                question: "Nurse Dzifa is assigned for serving medicines to patient on the ward. Which of the following would she do in the administration of mixture?",
+                options: ["I. Mix all liquid medications in a cup, II. Pour medicine opposite the bottle label, III. Poured medicine can be returned to its bottle", "II only", "II, III only"],
+                answer: "b"
+            },
+            {
+                question: "After removal of cast, the patient can be instructed to do the following EXCEPT…",
+                options: ["apply an ointment to soften the skin", "gradually resume activities and exercise", "use friction to remove dead surface skin"],
+                answer: "c"
+            },
+            {
+                question: "The preoperative phase extends until…",
+                options: ["patient is given pre-medication", "patient is transferred to the operation room", "last vital signs are checked in the ward"],
+                answer: "b"
+            },
+            {
+                question: "In …………..bleeding, the blood is bright red color",
+                options: ["Arterial", "Capillary", "Venous"],
+                answer: "a"
+            },
+            {
+                question: "When the first aider tilts the casualty’s head back and lifts the chin up, he is trying to ensure or maintain",
+                options: ["Breathing", "Airway", "Circulation"],
+                answer: "b"
+            },
+            {
+                question: "The following are signs of infected wounds except",
+                options: ["Cyanosis", "Fever", "Pus"],
+                answer: "a"
+            },
+            {
+                question: "Which of the following positions is best for a patient with Epistaxis? Head is tilted;",
+                options: ["Backwards", "Sideways", "Forward"],
+                answer: "c"
+            },
+            {
+                question: "Coughing up red blood is commonly seen in which of the following…..?",
+                options: ["Abdominal wounds", "Aseptic wounds", "Gunshot wound", "Penetrating chest wounds"],
+                answer: "d"
+            },
+            {
+                question: "Which of the following wounds is healed by first intention",
+                options: ["Abrasion", "Bruised", "Incised", "Punctured"],
+                answer: "c"
             }
-        });
+        ];
 
-        // Timer setup (25 minutes = 1500 seconds)
-        let timeLeft = 1500;
-        const timerDisplay = document.getElementById('timer');
-        const timer = setInterval(() => {
-            timeLeft--;
-            const minutes = Math.floor(timeLeft / 60);
-            const seconds = timeLeft % 60;
-            timerDisplay.textContent = `Time Left: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
-            if (timeLeft <= 0) {
-                clearInterval(timer);
-                submitQuiz();
+        let timer;
+        let timeLeft = 25 * 60; // 25 minutes in seconds
+        let userAnswers = {};
+        let shuffledQuestions = [];
+        const storageKey = 'quizSubmissions';
+
+        function shuffle(array) {
+            for (let i = array.length - 1; i > 0; i--) {
+                const j = Math.floor(Math.random() * (i + 1));
+                [array[i], array[j]] = [array[j], array[i]];
             }
-        }, 1000);
+            return array;
+        }
 
-        // Auto-submit on page leave
-        let submitted = false;
-        window.addEventListener('beforeunload', (e) => {
-            if (!submitted) {
-                submitQuiz();
-                e.returnValue = 'Your quiz will be submitted.';
-            }
-        });
+        function startTimer() {
+            timer = setInterval(() => {
+                timeLeft--;
+                const minutes = Math.floor(timeLeft / 60);
+                const seconds = timeLeft % 60;
+                document.getElementById('timer').textContent = `Time Left: ${minutes}:${seconds < 10 ? '0' : ''}${seconds}`;
+                if (timeLeft <= 0) {
+                    clearInterval(timer);
+                    submitQuiz();
+                }
+            }, 1000);
+        }
 
-        // Handle answer selection
-        document.querySelectorAll('.options input').forEach(input => {
-            input.addEventListener('change', (e) => {
-                const questionDiv = e.target.closest('.question');
-                const correctAnswer = questionDiv.dataset.answer;
-                const options = questionDiv.querySelectorAll('.options label');
-                options.forEach(label => {
-                    const radio = label.querySelector('input');
-                    label.classList.add('disabled');
-                    if (radio.value === correctAnswer) {
-                        label.classList.add('correct');
-                    } else if (radio === e.target) {
-                        label.classList.add('wrong');
-                    }
-                });
-            });
-        });
+        function startQuiz() {
+            const name = document.getElementById('name').value.trim();
+            const email = document.getElementById('email').value.trim();
+            const errorDiv = document.getElementById('error');
 
-        // Submit quiz and calculate score
-        function submitQuiz() {
-            if (submitted) return;
-            submitted = true;
-            clearInterval(timer);
-            const name = document.getElementById('name').value;
-            const index = document.getElementById('index').value;
-            if (!name) {
-                alert('Please enter your name before submitting.');
-                submitted = false;
+            if (!name || !email || !email.endsWith('@gmail.com')) {
+                errorDiv.textContent = 'Please enter a valid name and Gmail address.';
+                errorDiv.classList.remove('hidden');
                 return;
             }
-            let score = 0;
-            const totalQuestions = 49;
-            document.querySelectorAll('.question').forEach(question => {
-                const selected = question.querySelector('input:checked');
-                if (selected && selected.value === question.dataset.answer) {
-                    score++;
+
+            // Check if user has already taken the quiz
+            const submissions = JSON.parse(localStorage.getItem(storageKey) || '{}');
+            if (submissions[email]) {
+                errorDiv.textContent = 'You have already taken this quiz.';
+                errorDiv.classList.remove('hidden');
+                return;
+            }
+
+            // Store user submission
+            submissions[email] = { name, index: '20259011006' };
+            localStorage.setItem(storageKey, JSON.stringify(submissions));
+
+            // Shuffle questions
+            shuffledQuestions = shuffle([...questions]);
+
+            // Display quiz
+            document.getElementById('login-form').classList.add('hidden');
+            document.getElementById('quiz').classList.remove('hidden');
+            renderQuestions();
+            startTimer();
+
+            // Auto-submit on page unload
+            window.addEventListener('beforeunload', () => {
+                if (timeLeft > 0) {
+                    submitQuiz();
                 }
-                question.querySelectorAll('.options label').forEach(label => {
-                    label.classList.add('disabled');
-                });
             });
-            const percentage = ((score / totalQuestions) * 100).toFixed(2);
-            const resultDiv = document.getElementById('result');
-            resultDiv.style.display = 'block';
-            resultDiv.innerHTML = `
-                <h2>Quiz Results</h2>
-                <p>Name: ${name}</p>
-                <p>Index Number: ${index}</p>
-                <p>Score: ${score} out of ${totalQuestions}</p>
-                <p>Percentage: ${percentage}%</p>
-            `;
-            document.querySelector('button').disabled = true;
-            window.scrollTo(0, document.body.scrollHeight);
+        }
+
+        function renderQuestions() {
+            const form = document.getElementById('quiz-form');
+            form.innerHTML = '';
+            shuffledQuestions.forEach((q, index) => {
+                const questionDiv = document.createElement('div');
+                questionDiv.className = 'question';
+                questionDiv.innerHTML = `
+                    <h3>${index + 1}. ${q.question}</h3>
+                    <div class="options">
+                        ${q.options.map((option, i) => `
+                            <label>
+                                <input type="radio" name="q${index}" value="${String.fromCharCode(97 + i)}">
+                                ${String.fromCharCode(65 + i)}. ${option}
+                            </label>
+                        `).join('')}
+                    </div>`;
+                form.appendChild(questionDiv);
+            });
+        }
+
+        function submitQuiz() {
+            clearInterval(timer);
+            const form = document.getElementById('quiz-form');
+            const inputs = form.querySelectorAll('input[type="radio"]:checked');
+            inputs.forEach(input => {
+                const qIndex = parseInt(input.name.replace('q', ''));
+                userAnswers[qIndex] = input.value;
+            });
+
+            let score = 0;
+            const resultsDiv = document.getElementById('results');
+            resultsDiv.innerHTML = '<h2>Your Results</h2>';
+            shuffledQuestions.forEach((q, index) => {
+                const userAnswer = userAnswers[index];
+                const isCorrect = userAnswer === q.answer;
+                if (isCorrect) score++;
+                const resultDiv = document.createElement('div');
+                resultDiv.className = isCorrect ? 'correct' : 'incorrect';
+                resultDiv.innerHTML = `
+                    <p><strong>${index + 1}. ${q.question}</strong></p>
+                    <p>Your Answer: ${userAnswer ? String.fromCharCode(65 + (userAnswer.charCodeAt(0) - 97)) + '. ' + q.options[userAnswer.charCodeAt(0) - 97] : 'Not answered'}</p>
+                    <p>Correct Answer: ${String.fromCharCode(65 + (q.answer.charCodeAt(0) - 97)) + '. ' + q.options[q.answer.charCodeAt(0) - 97]}</p>
+                `;
+                resultsDiv.appendChild(resultDiv);
+            });
+
+            resultsDiv.innerHTML = `<h>${3}Score: ${score} out of${questions.length} (${Math.round((score / questions.length) * 100)}%)</h3>`;
+            document.getElementById('quiz').classList.add('hidden');
+            resultsDiv.classList.remove('hidden');
+
+            // Disable further submissions
+            window.removeEventListener('beforeunload', submitQuiz);
         }
     </script>
 </body>
-        </html>
+</html>
